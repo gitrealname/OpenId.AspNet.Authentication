@@ -46,7 +46,7 @@ namespace OpenId.AspNet.Authentication
             Options.TrustedAuthoritiesSet.Add(Options.Authority.ToLowerInvariant().RemoveTrailingSlash());
 
             //convert endpoint prefixes into app relative virtual path
-            if(options.DemandAuthorizationHeaderForEndpointPrefixes != null)
+            if(options.DemandAuthorizationHeaderForEndpointPrefixes?.Count > 0)
             {
                 var list = new List<string>();
                 foreach(var p in options.DemandAuthorizationHeaderForEndpointPrefixes)
@@ -200,7 +200,7 @@ namespace OpenId.AspNet.Authentication
             }
             catch(Exception e)
             {
-                RedirectToError(httpContext, 5000, e.Message);
+                RedirectToError(httpContext, 5000, e.Message.Replace("\n", " " ));
                 return;
             }
 
@@ -259,7 +259,7 @@ namespace OpenId.AspNet.Authentication
                 return;
             }
             //ignore cookie if request goes to listed Ajax/WebApi endpoints
-            if(Options.DemandAuthorizationHeaderForEndpointPrefixes != null)
+            if(Options.DemandAuthorizationHeaderForEndpointPrefixes?.Count > 0)
             {
                 if(Options.DemandAuthorizationHeaderForEndpointPrefixes.Any(p => request.AppRelativeCurrentExecutionFilePath != null && request.AppRelativeCurrentExecutionFilePath.StartsWith(p)))
                 {
