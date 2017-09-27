@@ -200,7 +200,7 @@ namespace OpenId.AspNet.Authentication
             }
             catch(Exception e)
             {
-                RedirectToError(httpContext, 5000, e.Message);
+                RedirectToError(httpContext, 5000, e.Message.Replace("\n", " " ));
                 return;
             }
 
